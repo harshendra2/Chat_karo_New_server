@@ -69,7 +69,7 @@ exports.ProfileUpdate=async(req,res)=>{
   const Id=req.id._id;
   
   try{
-   const baseUrl=`http://13.232.109.205/:4000`
+   const baseUrl=`http://3.7.45.207/:4000`
      const data=await User.findByIdAndUpdate(Id,{Profile:`${baseUrl}/${req.file?.path.replace(/\\/g, '/')}`})
     if(data){
       return res.status(200).json({message:"Profile updated successfully"});

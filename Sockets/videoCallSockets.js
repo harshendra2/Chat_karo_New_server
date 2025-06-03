@@ -61,6 +61,20 @@ const VideoSocket = (io) => {
   });
 
 
+socket.on('end-call', ({ callId }) => {
+  const call = activeCalls[callId];
+  if (call) {
+    const callerSocket = userSockets[call.callerId];
+    const receiverSocket = userSockets[call.receiverId];
+    
+    if (callerSocket) io.to(callerSocket).emit('call-ended');
+    if (receiverSocket) io.to(receiverSocket).emit('call-ended');
+    
+    delete activeCalls[callId];
+  }
+});
+
+
   socket.on('disconnect', () => {
     console.log('User disconnected:', socket.id);
     const userId = Object.keys(userSockets).find(
